@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pink Themed Checklist</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{--bg:#fff0f6;--card:#fff;--ink:#4a1d33;--mute:#a0708a;--pink:#ec4899;--soft:#fce7f3;--line:#fbcfe8;--shadow:rgba(236,72,153,.15);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#22101a;--card:#321826;--ink:#fde4f0;--mute:#c48aa8;--pink:#f472b6;--soft:#43203308;--line:#5a2a45;--shadow:rgba(0,0,0,.3)}}
+:root[data-theme="dark"]{--bg:#22101a;--card:#321826;--ink:#fde4f0;--mute:#c48aa8;--pink:#f472b6;--soft:#43203308;--line:#5a2a45;--shadow:rgba(0,0,0,.3)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Nunito",ui-rounded,"SF Pro Rounded","Quicksand",system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:720px;margin:0 auto;padding:60px 16px 60px}
+h1{font-size:2rem;margin:0 0 10px;color:var(--pink);outline:none;border-radius:12px;padding:0 8px;min-height:2.4rem}h1:focus{background:var(--soft);box-shadow:0 0 0 2px var(--line)}
+#tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.tab{background:var(--card);border:2px solid var(--line);border-radius:99px;padding:3px 14px;cursor:pointer;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tab:hover{background:var(--soft)}.tab.on{background:var(--pink);border-color:var(--pink);color:#fff}
+input,textarea,button{font:inherit;color:inherit}
+input,textarea{width:100%;background:var(--card);border:2px solid var(--line);border-radius:12px;padding:8px 12px;outline:none}
+input:focus,textarea:focus{border-color:var(--pink)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tools input{flex:1 1 160px;width:auto}
+.btn{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:6px 12px;cursor:pointer}
+.btn:hover,.btn.on{background:var(--pink);border-color:var(--pink);color:#fff}
+.overall{display:flex;align-items:center;gap:10px;margin-bottom:12px;color:var(--mute);font-size:.9rem}.overall .bar{flex:1}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#f9a8d4,var(--pink));border-radius:99px;transition:width .6s cubic-bezier(.22,1,.36,1);width:0}
+.bar.big{height:12px}.newsec{margin-bottom:18px}
+.sec{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:12px 14px;margin-bottom:14px;box-shadow:0 6px 18px var(--shadow)}
+.sec.complete{border-color:var(--pink)}
+.sec header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.sec h2{flex:1;margin:0;font-size:1.15rem;outline:none;border-radius:8px;padding:2px 6px}.sec h2:focus{background:var(--soft);box-shadow:0 0 0 2px var(--line)}
+.chev{background:none;border:0;cursor:pointer;color:var(--pink);font-size:1.1rem;transition:transform .2s;padding:2px 6px}.sec.open .chev{transform:rotate(90deg)}
+.cnt{color:var(--mute);font-size:.85rem}
+.ic{background:none;border:0;cursor:pointer;color:var(--mute);padding:2px 6px;border-radius:8px}.ic:hover{color:var(--pink);background:var(--soft)}
+.sec:not(.open) .body{display:none}.body{margin-top:10px}
+.item{border-radius:12px;padding:6px 6px;border-top:2px solid transparent;border-bottom:2px solid transparent}
+.item[hidden]{display:none}.item:hover{background:var(--soft)}.item.drag{opacity:.4}
+.item.dropb{border-top-color:var(--pink)}.item.dropa{border-bottom-color:var(--pink)}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.grip{cursor:grab;color:var(--line);user-select:none}
+.row input[type=checkbox]{appearance:none;-webkit-appearance:none;width:22px;height:22px;border:2px solid var(--pink);border-radius:8px;background:var(--card) center/0 no-repeat;cursor:pointer;flex:none;padding:0;margin:0}
+.row input[type=checkbox]:checked{background-color:var(--pink);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7'/%3E%3C/svg%3E");background-size:75%}
+.item.pop input[type=checkbox]:checked{animation:tick .45s cubic-bezier(.34,1.56,.64,1)}
+@keyframes tick{0%{transform:scale(.6);background-size:0}60%{transform:scale(1.2)}100%{transform:scale(1);background-size:75%}}
+.txt{flex:1 1 120px;word-break:break-word}.tx{background:linear-gradient(currentColor,currentColor) no-repeat 0 58%/0 2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}.item.done .txt{color:var(--mute)}.item.done .tx{background-size:100% 2px}.item.pop.done .tx{animation:strike .4s ease-out}@keyframes strike{from{background-size:0 2px}to{background-size:100% 2px}}
+.chip{font-size:.75rem;background:var(--soft);border:1px solid var(--line);color:var(--pink);border-radius:99px;padding:0 8px}.chip.od{background:var(--pink);color:#fff}
+.note{margin:4px 0 4px 36px;font-size:.92rem;color:var(--ink)}.note p{margin:4px 0}.note ul{margin:4px 0;padding-left:20px}
+.note code,.det code{background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:0 5px;font-size:.88em}
+.note a{color:var(--pink)}
+.det{margin:6px 0 6px 36px;display:grid;gap:8px}.det textarea{resize:vertical;font-family:ui-monospace,Menlo,monospace;font-size:.88rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.two label{font-size:.78rem;color:var(--mute)}.det .btn{justify-self:start}
+.add{margin-top:8px;border-style:dashed}
+.cb{margin:8px 0;border-radius:14px;overflow:hidden;background:#2d1b2e;color:#fde4f0;border:1px solid #5a2a45}
+.cbh{display:flex;justify-content:space-between;align-items:center;padding:4px 10px;background:#3d2340;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:#f9a8d4}
+.copy{background:#5a2a45;border:0;border-radius:8px;color:#fde4f0;padding:2px 10px;cursor:pointer;font-size:.75rem}.copy:hover{background:var(--pink)}
+.cbb{display:flex;overflow-x:auto;padding:8px 0}
+.cbb pre{margin:0;font:13px/1.55 ui-monospace,Menlo,Consolas,monospace}
+.cbb .ln{padding:0 10px;color:#a0708a;text-align:right;user-select:none;border-right:1px solid #5a2a45;margin-right:10px}
+.cbb code{background:none!important;border:0!important;padding:0!important;font-size:inherit!important}
+.hljs-keyword,.hljs-selector-tag,.hljs-literal{color:#ff7ab8}.hljs-string,.hljs-regexp{color:#a5f3c9}.hljs-number{color:#ffd479}
+.hljs-comment{color:#b58aa3;font-style:italic}.hljs-title,.hljs-function{color:#8ec5ff}.hljs-built_in,.hljs-type{color:#ffb3d9}
+.hljs-attr,.hljs-variable,.hljs-params{color:#f9c0e0}
+.empty{text-align:center;color:var(--mute)}
+dialog{background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:20px;padding:0;max-width:380px;width:calc(100% - 32px);box-shadow:0 12px 40px var(--shadow)}
+dialog::backdrop{background:rgba(74,29,51,.45)}.dlg{padding:20px}.dlg h3{margin:0 0 6px;font-size:1.3rem;color:var(--pink)}.dlg p{margin:4px 0 10px;color:var(--mute);font-size:.9rem}
+.dlg .box{border:2px solid var(--line);border-radius:14px;padding:12px;margin:14px 0}.dlg .row2{display:flex;justify-content:flex-end}
+#wipe{position:relative;overflow:hidden;z-index:0;border-color:#e11d48;color:#e11d48;user-select:none;-webkit-user-select:none;touch-action:none}
+#wipe:hover{background:var(--card)}
+#wipe::before{content:'';position:absolute;inset:0;background:#e11d48;transform:scaleX(0);transform-origin:left;transition:transform .3s ease-out;z-index:-1}
+#wipe.holding{color:#fff}#wipe.holding::before{transform:scaleX(1);transition:transform .75s linear}
+.gear{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:12px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--card);color:var(--pink);border:2px solid var(--line);border-radius:12px;cursor:pointer;z-index:4;padding:0}.gear:hover{background:var(--pink);border-color:var(--pink);color:#fff}.gear svg{transition:transform .4s}.gear:hover svg{transform:rotate(60deg)}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--pink);color:#fff;padding:8px 18px;border-radius:99px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:5}#toast.on{opacity:1;transform:translate(-50%,0)}
+.dlg label{display:block;font-size:.9rem;color:var(--mute);margin-top:6px}input[type=range]{padding:0;border:0;background:none;accent-color:var(--pink)}
+.cols{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.dlg .chk{display:flex;align-items:center;gap:10px;color:var(--ink);margin:8px 0;cursor:pointer}.dlg .chk input{width:20px;height:20px;padding:0;margin:0;flex:none;accent-color:var(--pink)}.dlg .chk small{display:block;color:var(--mute);font-size:.8rem}input[type=color]{width:36px;height:36px;padding:2px;border-radius:10px;cursor:pointer}.dlg .row2{gap:8px}
+#cf{position:fixed;inset:0;pointer-events:none;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;overflow:hidden}
+</style></head><body>
+<button id="st" class="gear" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+<main>
+<h1 id="ttl" contenteditable="true" spellcheck="false" data-f="listname"></h1>
+<div id="tabs"></div>
+<div class="tools"><input id="q" type="search" placeholder="Search items, notes, tags…"><button id="hd" class="btn">Hide done</button><button id="col" class="btn">Collapse all</button><button id="exp" class="btn">Expand all</button><button id="dl" class="btn" data-a="dellist">Delete list</button></div>
+<div class="overall"><div class="bar big"><i id="all"></i></div><span id="allc"></span></div>
+<div class="newsec"><input id="newsec" placeholder="New section name (Enter), or paste a Google Docs list"></div>
+<div id="app"></div>
+</main>
+<dialog id="set"><div class="dlg"><h3>Settings</h3><p>Your checklists are saved in this browser on this device.</p>
+<div class="box"><b>General</b><label class="chk"><input type="checkbox" id="notut"><span>No tutorial<small>After deleting data, start with a blank list instead of the tutorial</small></span></label><label class="chk"><input type="checkbox" id="keep"><span>Don't reset settings<small>Keep these settings when you delete data</small></span></label></div>
+<div class="box"><b>Confetti</b><label>Amount <span id="amtv"></span><input type="range" id="amt" min="0" max="300" step="25"></label><label>Colors</label><div class="cols" id="cols"></div><div class="row2"><button id="cfr" class="btn">Reset</button><button id="cft" class="btn">Test</button></div></div>
+<div class="box"><b>Delete data</b><p>Hold the button for under a second to remove every checklist and bring the tutorial back. This cannot be undone.</p><button id="wipe" class="btn">Hold to delete data</button></div>
+<div class="row2"><button id="cl" class="btn">Close</button></div></div></dialog>
+<div id="toast"></div>
+<canvas id="cf" popover="manual"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+const $=q=>document.querySelector(q),uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const KEY='pink-checklist-v3',today=new Date().toLocaleDateString('en-CA');
+let S=null;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+const codeTip=()=>({id:uid(),text:'Make a code block in a note: type ```language, then your code, then ``` on its own line to close it',done:false,tags:['code']});
+const tutorial=()=>({id:uid(),title:'Tutorial',open:true,items:[
+{id:uid(),text:'Click the pencil to add notes, a due date or tags (both optional)',done:false,tags:['tip'],note:'Notes support **bold**, *italic*, `inline code`, lists and code blocks:\n```js\nconst color = "pink";\nconsole.log(`feeling ${color}`);\n```'},
+codeTip(),
+{id:uid(),text:'Drag the dotted handle to reorder, even between sections',done:false,tags:[]},
+{id:uid(),text:'Fold a section with the arrow next to its title',done:false,tags:[]},
+{id:uid(),text:'Paste a Google Docs list: each heading becomes a section and its checklist goes inside',done:false,tags:['paste'],note:'Paste into the "New section" box or anywhere on the page outside a box. Checked items stay checked. Pasting into an "Add an item" box adds just the items to that section. Use **Copy** on a section to get it back as plain text.'},
+{id:uid(),text:'Finish every item in a section for a surprise',done:true,tags:[]}]});
+if(!S||(!S.sections&&!S.lists)){let o=null;try{o=JSON.parse(localStorage.getItem('pink-checklist-v2'))}catch(e){}
+ S=o&&o.sections?o:{hide:false,sections:[{id:uid(),title:'Quick List',open:true,items:[]}]};S.sections.push(tutorial())}
+if(!S.v){S.v=2;const t=S.sections.find(x=>x.title==='Tutorial');if(t&&!t.items.some(x=>x.text.startsWith('Make a code block')))t.items.splice(1,0,codeTip())}
+let R=S&&S.lists?S:{v:3,lists:[{id:uid(),name:'Pink Checklist',hide:!!S.hide,sections:S.sections}]};
+if(!R.lists.some(l=>l.id===R.cur))R.cur=R.lists[0].id;
+const active=()=>R.lists.find(l=>l.id===R.cur);S=active();
+if((R.v||0)<4){R.v=4;R.lists.forEach(l=>{const t=l.sections.find(x=>x.title==='Tutorial'),it=t&&t.items.find(x=>x.text.startsWith('Paste a checklist from Google Docs'));
+ if(it){it.text='Paste a Google Docs list: each heading becomes a section and its checklist goes inside';it.note='Paste into the "New section" box or anywhere on the page outside a box. Checked items stay checked. Pasting into an "Add an item" box adds just the items to that section. Use **Copy** on a section to get it back as plain text.'}})}
+const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(R))}catch(e){}};
+const snap=()=>JSON.stringify(R,(k,v)=>k==='armed'||k==='edit'||k==='cur'||k==='cfg'?undefined:v);
+let H=[snap()],hp=0,ct;
+function commit(){const j=snap();if(j===H[hp])return;H=H.slice(0,hp+1);H.push(j);if(H.length>100)H.shift();hp=H.length-1}
+const save=()=>{persist();commit()};
+const softSave=()=>{persist();clearTimeout(ct);ct=setTimeout(commit,700)};
+const sec=id=>S.sections.find(s=>s.id===id);
+const mile=p=>p>=100?'All done':p>=75?'Almost done':p>=50?'Halfway there':p>=25?'Nice progress':p>0?'Off to a good start':'';
+const pct=()=>{const a=S.sections.reduce((n,x)=>n+x.items.length,0),d=S.sections.reduce((n,x)=>n+x.items.filter(i=>i.done).length,0);return a?d/a*100:0};
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800)}
+const allDone=()=>{const ss=S.sections.filter(x=>x.items.length);return ss.length>0&&ss.every(x=>x.items.every(i=>i.done))};
+
+function inline(s){return esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\*([^*]+)\*/g,'<i>$1</i>').replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')}
+function codeBlock(code,lang){let h,l=lang;try{const r=lang&&hljs.getLanguage(lang)?hljs.highlight(code,{language:lang}):hljs.highlightAuto(code);h=r.value;l=l||r.language}catch(e){h=esc(code)}
+ const n=code.split('\n').map((_,k)=>k+1).join('\n');
+ return `<div class="cb"><div class="cbh"><span>${esc(l||'code')}</span><button class="copy" data-code="${encodeURIComponent(code)}">Copy</button></div><div class="cbb"><pre class="ln">${n}</pre><pre><code>${h}</code></pre></div></div>`}
+function md(src){const out=[],L=src.split('\n');let i=0,list=false;const close=()=>{if(list){out.push('</ul>');list=false}};
+ while(i<L.length){const f=L[i].match(/^```(\w*)/);
+  if(f){close();const b=[];i++;while(i<L.length&&!/^```/.test(L[i]))b.push(L[i++]);i++;out.push(codeBlock(b.join('\n'),f[1]));continue}
+  const li=L[i].match(/^\s*[-*]\s+(.*)/);
+  if(li){if(!list){out.push('<ul>');list=true}out.push('<li>'+inline(li[1])+'</li>')}else{close();if(L[i].trim())out.push('<p>'+inline(L[i])+'</p>')}
+  i++}
+ close();return out.join('')}
+
+let OLDW={};
+function itemHtml(s,i){const od=i.due&&!i.done&&i.due<today;
+ const chips=(i.due?`<span class="chip due${od?' od':''}">Due ${esc(i.due)}</span>`:'')+(i.tags||[]).map(t=>`<span class="chip">#${esc(t)}</span>`).join('');
+ const det=`<div class="det"><input data-f="text" value="${esc(i.text)}"><textarea data-f="note" rows="5" placeholder="Notes (markdown and code fences supported)">${esc(i.note||'')}</textarea><div class="two"><label>Due date (optional)<input type="date" data-f="due" value="${esc(i.due||'')}"></label><label>Tags (optional)<input data-f="tags" placeholder="work, urgent" value="${esc((i.tags||[]).join(', '))}"></label></div><button class="btn" data-a="det">Done</button></div>`;
+ return `<div class="item${i.done?' done':''}" draggable="${!i.edit}" data-i="${i.id}" data-s="${s.id}"><div class="row"><span class="grip" title="Drag to reorder">⠿</span><input type="checkbox" data-a="chk" ${i.done?'checked':''}><span class="txt"><span class="tx">${esc(i.text)}</span></span>${chips}<button class="ic" data-a="det" title="Details">✎</button><button class="ic" data-a="del" title="Delete">✕</button></div>${i.edit?det:(i.note?`<div class="note">${md(i.note)}</div>`:'')}</div>`}
+function secHtml(s){const d=s.items.filter(i=>i.done).length,n=s.items.length;
+ return `<section class="sec${s.open?' open':''}${n&&d===n?' complete':''}" data-s="${s.id}"><header><button class="chev" data-a="fold" aria-label="Fold section">▸</button><h2 contenteditable="true" spellcheck="false" data-f="title">${esc(s.title)}</h2><span class="cnt">${d}/${n}</span><button class="ic" data-a="copysec" title="Copy as a plain checklist">Copy</button><button class="ic" data-a="reset" title="Uncheck all">↺</button><button class="ic" data-a="delsec" title="Delete section">${S.armed===s.id?'Sure?':'✕'}</button></header><div class="bar"><i data-w="${n?d/n*100:0}" style="width:${OLDW[s.id]||'0%'}"></i></div><div class="body">${s.items.map(i=>itemHtml(s,i)).join('')}<input class="add" data-s="${s.id}" placeholder="Add an item… (Enter)"></div></section>`}
+function filter(){const q=$('#q').value.toLowerCase();document.querySelectorAll('.item').forEach(el=>{const i=sec(el.dataset.s).items.find(x=>x.id===el.dataset.i);
+ el.hidden=(q&&!(i.text+' '+(i.note||'')+' '+(i.tags||[]).join(' ')).toLowerCase().includes(q))||(S.hide&&i.done)})}
+function render(){const t=S.sections.reduce((a,s)=>a+s.items.length,0),d=S.sections.reduce((a,s)=>a+s.items.filter(i=>i.done).length,0);
+ $('#all').style.width=(t?d/t*100:0)+'%';$('#allc').textContent=d+'/'+t+' done'+(t&&mile(d/t*100)?' \u00B7 '+mile(d/t*100):'');$('#hd').classList.toggle('on',!!S.hide);
+ $('#tabs').innerHTML=R.lists.map(l=>`<button class="tab${l.id===R.cur?' on':''}" data-a="tab" data-l="${l.id}"><span class="tn">${esc(l.name.trim()||'Untitled')}</span></button>`).join('')+'<button class="tab" data-a="newlist" title="New checklist">+</button>';
+ if(document.activeElement!==$('#ttl'))$('#ttl').textContent=S.name;document.title=S.name.trim()||'Checklist';$('#dl').textContent=R.armed?'Sure?':'Delete list';
+ OLDW={};document.querySelectorAll('.sec').forEach(el=>{const b=el.querySelector('.bar i');if(b)OLDW[el.dataset.s]=b.style.width});
+ $('#app').innerHTML=S.sections.map(secHtml).join('')||'<p class="empty">No sections yet. Add one above.</p>';
+ void $('#app').offsetWidth;document.querySelectorAll('#app .bar i').forEach(b=>{b.style.width=b.dataset.w+'%'});filter();save()}
+
+document.addEventListener('click',e=>{
+ const c=e.target.closest('.copy');if(c){copy(decodeURIComponent(c.dataset.code),c);return}
+ const b=e.target.closest('[data-a]'),a=b&&b.dataset.a,had=S.armed||R.armed;if(a!=='delsec')S.armed=null;if(a!=='dellist')R.armed=null;
+ const se=e.target.closest('.sec'),s=se&&sec(se.dataset.s),it=e.target.closest('.item'),i=it&&s&&s.items.find(x=>x.id===it.dataset.i);
+ if(a==='fold')s.open=!s.open;
+ else if(a==='reset')s.items.forEach(x=>x.done=false);
+ else if(a==='delsec'){if(S.armed===s.id)S.sections=S.sections.filter(x=>x!==s),S.armed=null;else S.armed=s.id}
+ else if(a==='det')i.edit=!i.edit;
+ else if(a==='del')s.items=s.items.filter(x=>x!==i);
+ else if(a==='copysec'){copy(s.items.map(x=>(x.done?'[x] ':'[ ] ')+x.text).join('\n'),b);return}
+ else if(a==='tab'){R.cur=b.dataset.l;S=active()}
+ else if(a==='newlist'){const c=cfg(),l={id:uid(),name:'New Checklist',hide:false,sections:[c.notut?{id:uid(),title:'Quick List',open:true,items:[]}:tutorial()]};R.lists.push(l);R.cur=l.id;S=l}
+ else if(a==='dellist'){if(R.armed){R.lists=R.lists.filter(l=>l!==S);if(!R.lists.length)R.lists.push({id:uid(),name:'Pink Checklist',hide:false,sections:[{id:uid(),title:'Quick List',open:true,items:[]}]});R.cur=R.lists[0].id;S=active();R.armed=false}else R.armed=true}
+ else if(a==='chk'||!a&&!had)return;
+ render();if(a==='newlist'){const t=$('#ttl');t.focus();getSelection().selectAllChildren(t)}});
+document.addEventListener('change',e=>{if(e.target.dataset.a!=='chk')return;
+ const s=sec(e.target.closest('.sec').dataset.s),i=s.items.find(x=>x.id===e.target.closest('.item').dataset.i),was=s.items.every(x=>x.done),allWas=allDone(),p0=pct();
+ i.done=e.target.checked;const now=s.items.every(x=>x.done),r=e.target.getBoundingClientRect();render();const el=document.querySelector('.item[data-i="'+i.id+'"]');if(el&&i.done)el.classList.add('pop');
+ const p1=pct(),m=p1>p0?[[75,'Almost done'],[50,'Halfway there']].find(x=>p0<x[0]&&p1>=x[0]):null;
+ if(allDone()&&!allWas)confettiFull();else{if(!was&&now)confetti(r.left,r.top);if(m&&p1<100)toast(m[1])}});
+document.addEventListener('input',e=>{const f=e.target.dataset.f;if(!f)return;
+ if(f==='listname'){S.name=e.target.textContent;const tn=document.querySelector('.tab.on .tn');if(tn)tn.textContent=S.name.trim()||'Untitled';document.title=S.name.trim()||'Checklist';softSave();return}
+ const se=e.target.closest('.sec'),s=se&&sec(se.dataset.s),it=e.target.closest('.item');
+ if(f==='title')s.title=e.target.textContent;
+ else{const i=s.items.find(x=>x.id===it.dataset.i);i[f]=f==='tags'?e.target.value.split(',').map(t=>t.trim().replace(/^#/,'')).filter(Boolean):e.target.value}softSave()});
+document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;const t=e.target;
+ if(t.matches('h1,h2')){e.preventDefault();t.blur()}
+ else if(t.matches('.add')&&t.value.trim()){const s=sec(t.dataset.s);s.items.push({id:uid(),text:t.value.trim(),done:false,tags:[]});render();document.querySelector('.add[data-s="'+s.id+'"]').focus()}
+ else if(t.id==='newsec'&&t.value.trim()){S.sections.push({id:uid(),title:t.value.trim(),open:true,items:[]});t.value='';render()}});
+function parsePaste(e){const cd=e.clipboardData;if(!cd)return null;const html=cd.getData('text/html'),txt=cd.getData('text/plain');let rows=[];
+ if(html&&/<li/i.test(html)){const d=new DOMParser().parseFromString(html,'text/html');
+  d.querySelectorAll('li').forEach(li=>{const o=li.cloneNode(true);o.querySelectorAll('ul,ol').forEach(x=>x.remove());
+   const t=o.textContent.replace(/\s+/g,' ').trim();if(!t)return;const cb=o.querySelector('input[type=checkbox]');
+   rows.push({text:t,done:li.getAttribute('aria-checked')==='true'||!!(cb&&cb.checked)||/line-through/.test(o.innerHTML)})})}
+ if(rows.length<2)rows=txt.split(/\r?\n/).map(l=>l.trim()).filter(Boolean).map(l=>{
+  const m=l.match(/^(?:[-*\u2022\u25AA\u25E6]\s+)?(?:(\[\s*[xX\u2713\u2714]?\s*\]|[\u2610\u2611\u2612\u2705\u2B1C\u2713\u2714])\s*)?(.*)$/);
+  return{text:m[2].trim(),done:/[xX\u2713\u2714\u2611\u2612\u2705]/.test(m[1]||'')}}).filter(r=>r.text);
+ return rows}
+function parseLine(l){const m=l.match(/^(?:([-*\u2022\u25AA\u25E6])\s+)?(?:(\[\s*[xX\u2713\u2714]?\s*\]|[\u2610\u2611\u2612\u2705\u2B1C\u2713\u2714])\s*)?(.*)$/);
+ return{text:m[3].trim(),done:/[xX\u2713\u2714\u2611\u2612\u2705]/.test(m[2]||''),marked:!!(m[1]||m[2])}}
+function parseDoc(e){const cd=e.clipboardData;if(!cd)return null;const html=cd.getData('text/html'),txt=cd.getData('text/plain');let out=[],cur=null;
+ const start=t=>{cur={title:t,items:[]};out.push(cur)},BLOCK='h1,h2,h3,h4,h5,h6,p,div,li,ul,ol,table';
+ const isDone=o=>o.getAttribute('aria-checked')==='true'||!!o.querySelector('input[type=checkbox]:checked,input[checked]')||/line-through/.test(o.innerHTML);
+ function walk(n){for(const c of n.children){const tg=c.tagName;
+  if(tg==='LI'){const o=c.cloneNode(true);o.querySelectorAll('ul,ol').forEach(x=>x.remove());const t=o.textContent.replace(/\s+/g,' ').trim();
+   if(t){if(!cur)start('');cur.items.push({text:t,done:isDone(o)})}
+   c.querySelectorAll(':scope > ul,:scope > ol').forEach(x=>walk(x))}
+  else if(tg==='UL'||tg==='OL')walk(c);
+  else if(c.querySelector(BLOCK))walk(c);
+  else if(!/^(STYLE|SCRIPT|META|TITLE)$/.test(tg)){const t=c.textContent.replace(/\s+/g,' ').trim();if(t)start(t)}}}
+ if(html)walk(new DOMParser().parseFromString(html,'text/html').body);
+ if(!out.some(x=>x.items.length)){out=[];cur=null;
+  const rows=txt.split(/\r?\n/).map(l=>l.trim()).filter(Boolean).map(parseLine);
+  if(rows.some(r=>r.marked))rows.forEach(r=>{if(!r.text)return;if(r.marked){if(!cur)start('');cur.items.push({text:r.text,done:r.done})}else start(r.text)});
+  else{const bl=txt.split(/\r?\n\s*\r?\n/).map(b=>b.split(/\r?\n/).map(l=>l.trim()).filter(Boolean)).filter(b=>b.length);
+   if(bl.length>1&&bl.every(b=>b.length>1))bl.forEach(b=>{start(b[0]);b.slice(1).forEach(l=>cur.items.push({text:l,done:false}))});
+   else rows.forEach(r=>{if(!cur)start('');cur.items.push({text:r.text,done:r.done})})}}
+ const ne=out.filter(x=>x.items.length);return ne.length?ne:out}
+document.addEventListener('paste',e=>{const t=e.target,isAdd=t.matches&&t.matches('.add'),free=!(t.closest&&t.closest('input,textarea,[contenteditable]'));
+ if(isAdd){const rows=parsePaste(e);if(!rows||rows.length<2)return;e.preventDefault();sec(t.dataset.s).items.push(...rows.map(r=>({id:uid(),text:r.text,done:r.done,tags:[]})));render();return}
+ if(!free&&t.id!=='newsec')return;
+ const out=parseDoc(e);if(!out)return;const n=out.reduce((a,x)=>a+x.items.length,0);if(out.length+n<2)return;e.preventDefault();
+ out.forEach(x=>S.sections.push({id:uid(),title:x.title||'Pasted list',open:true,items:x.items.map(r=>({id:uid(),text:r.text,done:r.done,tags:[]}))}));
+ if(t.id==='newsec')t.value='';render()});
+document.addEventListener('keydown',e=>{if(!(e.metaKey||e.ctrlKey)||e.altKey)return;const k=e.key.toLowerCase();if(k!=='z'&&k!=='y')return;
+ const t=e.target;if(t.isContentEditable||(t.matches&&t.matches('input,textarea')&&t.type!=='checkbox'&&t.value!==''))return;
+ e.preventDefault();clearTimeout(ct);commit();const redo=k==='y'||e.shiftKey;
+ if(redo){if(hp>=H.length-1)return;hp++}else{if(hp<=0)return;hp--}
+ const cur=R.cur,cf=R.cfg;R=JSON.parse(H[hp]);R.cur=R.lists.some(l=>l.id===cur)?cur:R.lists[0].id;if(cf)R.cfg=cf;S=active();render()});
+const dlg=$('#set'),wb=$('#wipe');
+let ht;const disarm=()=>{clearTimeout(ht);wb.classList.remove('holding')};
+$('#st').onclick=()=>{disarm();syncCfg();dlg.showModal()};
+$('#cl').onclick=()=>dlg.close();
+dlg.onclick=e=>{if(e.target===dlg)dlg.close()};
+dlg.addEventListener('close',disarm);
+function wipe(){clearTimeout(ct);try{localStorage.removeItem('pink-checklist-v2')}catch(e){}
+ const c=cfg(),l={id:uid(),name:'Pink Checklist',hide:false,sections:[c.notut?{id:uid(),title:'Quick List',open:true,items:[]}:tutorial()]};
+ R={v:4,cur:l.id,lists:[l]};if(c.keep)R.cfg=c;S=l;H=[snap()];hp=0;$('#q').value='';render();dlg.close()}
+const hold=()=>{if(wb.classList.contains('holding'))return;wb.classList.add('holding');ht=setTimeout(()=>{disarm();wipe()},750)};
+wb.onpointerdown=e=>{e.preventDefault();hold()};
+['pointerup','pointerleave','pointercancel'].forEach(t=>{wb['on'+t]=disarm});
+wb.oncontextmenu=e=>e.preventDefault();
+wb.onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&!e.repeat){e.preventDefault();hold()}};
+wb.onkeyup=disarm;wb.onblur=disarm;
+const cols=$('#cols'),amt=$('#amt');
+function syncCfg(){const c=cfg();amt.value=c.amt;$('#notut').checked=!!c.notut;$('#keep').checked=!!c.keep;$('#amtv').textContent=c.amt+'%';cols.innerHTML=c.cols.map((v,k)=>`<input type="color" data-k="${k}" value="${v}" aria-label="Confetti color ${k+1}">`).join('')}
+amt.oninput=()=>{cfg().amt=+amt.value;$('#amtv').textContent=amt.value+'%';persist()};
+cols.oninput=e=>{const k=e.target.dataset.k;if(k==null)return;cfg().cols[+k]=e.target.value;persist()};
+$('#cfr').onclick=()=>{const c=cfg();c.amt=100;c.cols=[...DEF];syncCfg();persist()};
+$('#notut').onchange=e=>{cfg().notut=e.target.checked;persist()};
+$('#keep').onchange=e=>{cfg().keep=e.target.checked;persist()};
+$('#cft').onclick=e=>{const r=e.target.getBoundingClientRect();confetti(r.left+r.width/2,r.top)};
+$('#q').oninput=filter;
+$('#hd').onclick=()=>{S.hide=!S.hide;render()};
+$('#col').onclick=()=>{S.sections.forEach(s=>s.open=false);render()};
+$('#exp').onclick=()=>{S.sections.forEach(s=>s.open=true);render()};
+
+let drag=null;const clr=()=>document.querySelectorAll('.dropb,.dropa,.drag').forEach(x=>x.classList.remove('dropb','dropa','drag'));
+document.addEventListener('dragstart',e=>{const it=e.target.closest&&e.target.closest('.item');if(!it)return;drag={s:it.dataset.s,i:it.dataset.i};e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',drag.i);it.classList.add('drag')});
+document.addEventListener('dragend',()=>{drag=null;clr()});
+document.addEventListener('dragover',e=>{if(!drag)return;const it=e.target.closest('.item');if(!it&&!e.target.closest('.body'))return;e.preventDefault();clr();
+ if(it){const r=it.getBoundingClientRect();it.classList.add(e.clientY<r.top+r.height/2?'dropb':'dropa')}});
+document.addEventListener('drop',e=>{if(!drag)return;const se=e.target.closest('.sec');if(!se)return;e.preventDefault();
+ const it=e.target.closest('.item'),from=sec(drag.s),to=sec(se.dataset.s),[m]=from.items.splice(from.items.findIndex(x=>x.id===drag.i),1);let pos=to.items.length;
+ if(it){const k=to.items.findIndex(x=>x.id===it.dataset.i),r=it.getBoundingClientRect();pos=e.clientY<r.top+r.height/2?k:k+1}
+ to.items.splice(pos,0,m);drag=null;render()});
+
+function copy(t,b){const ok=()=>{b.textContent='Copied ✓';setTimeout(()=>b.textContent='Copy',1200)};
+ const fb=()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()};
+ if(navigator.clipboard)navigator.clipboard.writeText(t).then(ok,fb);else fb()}
+let PS=[],raf=0;const DEF=['#ec4899','#f9a8d4','#fbcfe8','#f472b6','#ffffff','#c084fc'];const cfg=()=>R.cfg||(R.cfg={amt:100,cols:[...DEF]}),cnt=n=>Math.round(n*cfg().amt/100);
+const calm=()=>cfg().amt<=0||matchMedia('(prefers-reduced-motion: reduce)').matches,rnd=(a,b)=>a+Math.random()*(b-a),pick=()=>{const c=cfg().cols;return c[Math.random()*c.length|0]};
+function run(){if(raf)return;const c=$('#cf'),g=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;
+ try{c.hidePopover();c.showPopover()}catch(e){}
+ (function f(){g.clearRect(0,0,c.width,c.height);PS=PS.filter(p=>p.life-->0&&p.y<c.height+30);
+  PS.forEach(p=>{p.vy+=p.g;p.vx*=.995;p.x+=p.vx;p.y+=p.vy;p.a+=p.s;g.fillStyle=p.c;g.save();g.translate(p.x,p.y);g.rotate(p.a);g.fillRect(-p.r,-p.r/2,p.r*2,p.r);g.restore()});
+  if(PS.length)raf=requestAnimationFrame(f);else{raf=0;g.clearRect(0,0,c.width,c.height);try{c.hidePopover()}catch(e){}}})()}
+function confetti(x,y){if(calm())return;for(let i=0,n=cnt(110);i<n;i++)PS.push({x,y,vx:rnd(-6,6),vy:rnd(-15,-3),g:.35,r:rnd(3,8),c:pick(),a:rnd(0,6),s:rnd(-.25,.25),life:150});run()}
+function confettiFull(){if(calm())return;const w=innerWidth,h=innerHeight;
+ for(let i=0,n=cnt(320);i<n;i++)PS.push({x:rnd(0,w),y:rnd(-h*.8,-10),vx:rnd(-2,2),vy:rnd(1,5),g:.06,r:rnd(3,8),c:pick(),a:rnd(0,6),s:rnd(-.2,.2),life:420});
+ for(let k=0;k<2;k++)for(let i=0,n=cnt(140);i<n;i++){const L=k===0;PS.push({x:L?0:w,y:h,vx:(L?1:-1)*rnd(4,16),vy:rnd(-26,-12),g:.4,r:rnd(3,8),c:pick(),a:rnd(0,6),s:rnd(-.25,.25),life:260})}
+ run()}
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+addEventListener('pagehide',()=>{clearTimeout(ct);persist()});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){clearTimeout(ct);commit();persist()}});
+render();
+</script></body><script src="nav.js"></script></html>

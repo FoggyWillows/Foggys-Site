@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foggy's Site</title>
+    <link rel="icon" type="image/png" href="Icon.png">
+    <style>
+        /* Global Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        ::selection {
+            background-color: rgb(243, 203, 254);
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #fdf2f8;
+            font-family: sans-serif;
+            overflow-x: hidden; 
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column; 
+            width: 100%;
+        }
+
+        /* ---- BANNER CONTAINER ---- */
+        .top-banner {
+            width: 100%;
+            height: 60px;
+            background-color: #f472b6;
+            display: flex;
+            align-items: center;     
+            padding: 0 15px; 
+            
+            /* ---- LEFT-TO-RIGHT LAYOUT CHANGES ---- */
+            justify-content: flex-start; /* Aligns everything to the left side */
+            gap: 40px;                   /* Creates space between "Foggy's Site" and the nav links */
+        }
+
+        /* ---- BRAND / LOGO LINK ---- */
+        .brand-link {
+            display: flex;          /* Allows image and text to sit side-by-side */
+            align-items: center;    /* Vertically centers both image and text */
+            gap: 12px;              /* Creates space between the image and the text */
+            text-decoration: none; 
+        }
+
+        /* ---- BRAND LOGO IMAGE ---- */
+        .brand-logo {
+            height: 40px;           /* Scales down to fit nicely within the 60px banner */
+            width: auto;            /* Keeps original width proportions */
+            object-fit: contain;
+        }
+
+        /* ---- BRAND TEXT ---- */
+        .brand-text {
+            font-size: 25px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* ---- NAVIGATION MENU ---- */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px; 
+            list-style: none; 
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            text-decoration: underline; 
+        }
+
+        .divider {
+            color: rgba(255, 255, 255, 0.6); 
+            font-size: 18px;
+            user-select: none; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Main Top Banner -->
+        <nav class="top-banner">
+          <a href="index.html" class="brand-link">
+            <img src="FoggyWillowsBodyShot.png" alt="Logo" class="brand-logo">
+            <span class="brand-text">Foggy's Site</span>
+          </a>
+          <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link active">Home</a></li>
+            <li class="divider">|</li>
+            <li><a href="FlowerRealmsRentalTimers.html" class="nav-link">Rental Timers</a></li>
+            <li class="divider">|</li>
+            <li><a href="FlowerRealmsGendropCalculator.html" class="nav-link">Gendrop Calculator</a></li>
+            <li class="divider">|</li>
+            <li><a href="PinkCheckList.html" class="nav-link">Pink Checklist</a></li>
+          </ul>
+        </nav>
+
+    </div>
+
+</body>
+</html>

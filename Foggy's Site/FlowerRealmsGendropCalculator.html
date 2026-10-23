@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenDrop Calculator</title>
+    <link rel="icon" type="image/png" href="Icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        ::selection { background-color: #f6b8d6; }
+        :root {
+            --bg: #fdf2f8; --card: #ffffff; --text: #3b0a24; --muted: #a05577; --border: #f9d5e8;
+            --input: #fff7fa; --pink: #f472b6; --pink-h: #db2777; --dpink: #9d174d; --soft: #fbd5e8; --softer: #fdeaf3;
+            --display: 'Outfit', 'Segoe UI', system-ui, sans-serif;
+            --body: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: var(--body); background: radial-gradient(circle at top, #fff 0%, var(--bg) 60%); background-attachment: fixed; color: var(--text); margin: 0; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+        .container { width: 100%; max-width: 1000px; background: var(--card); padding: 32px; border-radius: 20px; box-shadow: 0 12px 32px rgba(219,39,119,0.12); border: 1px solid var(--border); }
+        h2 { font-family: var(--display); margin: 0 0 22px 0; color: var(--dpink); border-bottom: 2px solid var(--border); padding-bottom: 12px; font-weight: 800; font-size: 30px; letter-spacing: -0.5px; }
+        h3 { font-family: var(--display); color: var(--pink-h); margin: 32px 0 14px 0; font-weight: 600; font-size: 19px; border-left: 4px solid var(--pink); padding-left: 12px; }
+        .multi-box { background: var(--softer); padding: 14px 16px; border-radius: 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 14px; border: 1px solid var(--border); font-weight: 600; color: var(--dpink); }
+        .multi-box input { padding: 8px 10px; width: 120px; font-family: var(--body); font-size: 16px; background: #fff; color: var(--text); border: 1.5px solid var(--border); border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        th { background: var(--softer); color: var(--dpink); font-weight: 600; font-size: 12px; letter-spacing: 0.04em; }
+        th:first-child { border-top-left-radius: 8px; } th:last-child { border-top-right-radius: 8px; }
+        tbody tr:hover { background: #fffafc; }
+        select, input[type="number"], .combo-in { width: 100%; padding: 10px; background: var(--input); color: var(--text); border: 1.5px solid var(--border); border-radius: 8px; font-family: var(--body); font-size: 14px; transition: border-color 0.15s, box-shadow 0.15s; }
+        select:focus, input:focus { outline: none; border-color: var(--pink-h); box-shadow: 0 0 0 3px rgba(244,114,182,0.25); }
+        .btn { background: var(--pink); color: white; border: none; padding: 10px 18px; border-radius: 8px; font-family: var(--body); font-size: 14px; font-weight: 600; transition: background 0.2s, transform 0.1s; }
+        .btn:hover { background: var(--pink-h); }
+        .btn:active, .btn-danger:active { transform: scale(0.97); }
+        .btn-danger { background: var(--softer); padding: 8px 12px; border-radius: 8px; color: var(--dpink); border: 1px solid var(--border); font-weight: 600; transition: background 0.2s; }
+        .btn-danger:hover { background: var(--soft); }
+        .total-box { margin-top: 28px; padding: 24px 28px; background: linear-gradient(135deg, var(--softer), var(--soft)); color: var(--dpink); border: 1px solid #f6b8d6; border-radius: 16px; text-align: left; box-shadow: 0 4px 16px rgba(244,114,182,0.2); }
+        .total-label { font-size: 14px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+        .total-main { font-family: var(--display); font-weight: 800; font-size: clamp(26px, 5vw, 40px); letter-spacing: -0.5px; line-height: 1.15; word-break: break-word; font-variant-numeric: tabular-nums; }
+        .total-short { color: var(--pink-h); font-weight: 700; margin-left: 4px; }
+        .total-unit { font-size: 15px; font-weight: 500; color: var(--muted); margin-left: 6px; letter-spacing: 0; }
+        .value-display { font-family: var(--display); font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--dpink); }
+        .warning-text { color: #e11d48; font-size: 11px; display: block; margin-top: 4px; font-weight: 600; }
+        .input-error { border: 2px solid #e11d48 !important; background: #ffe4e6 !important; }
+        .combo { position: relative; }
+        .combo-list { position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 50; margin: 0; padding: 4px; list-style: none; background: #fff; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 10px 28px rgba(219,39,119,0.18); max-height: 260px; overflow-y: auto; min-width: 220px; }
+        .combo-list[hidden] { display: none; }
+        .combo-list li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 10px; border-radius: 7px; font-size: 14px; }
+        .combo-list li small { color: var(--muted); font-size: 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+        .combo-list li.active { background: var(--soft); }
+        .combo-list li.picked span { font-weight: 700; color: var(--dpink); }
+        .combo-list li.none { color: var(--muted); justify-content: flex-start; }
+        /* ---- Pink cursors: edit the three file names (and hotspots) here ---- */
+        :root {
+            --cursor-default: url("PinkPointerCursor.png") 0 0, auto;   /* normal arrow */
+            --cursor-text:    url("PinkTextCursor.png") 16 16, text;    /* I-beam over typeable boxes */
+            --cursor-click:   url("PinkClickCursor.png") 8 0, pointer;  /* hand over buttons / list options */
+        }
+        html { cursor: var(--cursor-default); }  /* children inherit this */
+        input[type="text"], input[type="number"], .combo-in { cursor: var(--cursor-text); }
+        button, .btn, .btn-danger, select, .combo-list li { cursor: var(--cursor-click); }
+        .combo-list li.none { cursor: var(--cursor-default); }
+
+/* ---- TOP BANNER ---- */
+.top-banner{width:100%;height:60px;background-color:#f472b6;display:flex;align-items:center;padding:0 15px;justify-content:flex-start;gap:40px;font-family:sans-serif;flex-shrink:0}
+.brand-link{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand-logo{height:40px;width:auto;object-fit:contain}
+.brand-text{font-size:25px;font-weight:bold;color:#fff}
+.nav-menu{display:flex;align-items:center;gap:15px;list-style:none;margin:0;padding:0}
+.nav-link{color:#fff;text-decoration:none;font-size:18px;font-weight:500}
+.nav-link:hover,.nav-link.active{text-decoration:underline}
+.divider{color:rgba(255,255,255,.6);font-size:18px;user-select:none}
+.top-banner{align-self:stretch;width:auto;margin:-24px -16px 24px}
+    </style>
+</head>
+<body>
+<nav class="top-banner">
+  <a href="index.html" class="brand-link">
+    <img src="FoggyWillowsBodyShot.png" alt="Logo" class="brand-logo">
+    <span class="brand-text">Foggy's Site</span>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="index.html" class="nav-link">Home</a></li>
+    <li class="divider">|</li>
+    <li><a href="FlowerRealmsRentalTimers.html" class="nav-link">Rental Timers</a></li>
+    <li class="divider">|</li>
+    <li><a href="FlowerRealmsGendropCalculator.html" class="nav-link active">Gendrop Calculator</a></li>
+    <li class="divider">|</li>
+    <li><a href="PinkCheckList.html" class="nav-link">Pink Checklist</a></li>
+  </ul>
+</nav>
+<div class="container">
+    <h2>GenDrop Calculator</h2>
+    <div class="multi-box">
+        <label for="globalMultiplier">Global Multiplier:</label>
+        <input type="number" id="globalMultiplier" value="0" step="0.1" oninput="calAll()">
+    </div>
+    <h3>Placed Generators</h3>
+    <table>
+        <thead>
+            <tr><th style="width: 45%;">Generator Model</th><th style="width: 20%;"># Placed</th><th style="width: 25%;">Income / Min</th><th style="width: 10%;">Action</th></tr>
+        </thead>
+        <tbody id="genTableBody"></tbody>
+    </table>
+    <button class="btn" onclick="addGenRow()">➕ Add Generator Row</button>
+    <h3>Genstackers</h3>
+    <table>
+        <thead>
+            <tr><th style="width: 25%;">Genstacker Tier</th><th style="width: 25%;">Gen Type Inside</th><th style="width: 15%;"># Gens Inside Each</th><th style="width: 15%;">How Many Stackers?</th><th style="width: 15%;">Income / Min</th><th style="width: 5%;">Action</th></tr>
+        </thead>
+        <tbody id="stackerTableBody"></tbody>
+    </table>
+    <button class="btn" onclick="addStackerRow()">➕ Add Genstacker Row</button>
+    <div class="total-box">
+        <div class="total-label">Total income</div>
+        <div class="total-main">$<span id="grandTotal">0.00</span><span id="grandShort" class="total-short"></span><span class="total-unit">/ min</span></div>
+    </div>
+</div>
+<script>
+    const G = { "Money": [60, "60"], "Oak Log": [120, "120"], "Cobblestone": [180, "180"], "Stone": [360, "360"], "Coal": [720, "720"], "Iron": [1200, "1.2k"], "Gold": [1800, "1.8k"], "Diamond": [2100, "2.1k"], "Emerald": [3000, "3k"], "Obsidian": [3600, "3.6k"], "Netherrack": [4200, "4.2k"], "Nether Quartz": [4800, "4.8k"], "Nether Bricks": [5400, "5.4k"], "Ancient Debris": [6000, "6k"], "Coal Block": [7520, "7.52k"], "Iron Block": [9000, "9k"], "Gold Block": [12000, "12k"], "Diamond Block": [13520, "13.52k"], "Emerald Block": [15000, "15k"], "Beacon": [18000, "18k"], "Respawn Anchor": [19500, "19.5k"], "End Generator": [21000, "21k"], "End Stone": [24000, "24k"], "Purpur": [25000, "25k"], "Netherite": [27000, "27k"], "Amethyst": [28500, "28.5k"], "Bedrock": [30000, "30k"], "???": [36000, "36k"], "Skies": [45000, "45k"], "Undergrounds": [54000, "54k"], "Earth": [60000, "60k"], "Water": [69000, "69k"], "Sun": [78000, "78k"], "Moon": [90000, "90k"], "Meteror": [105000, "105k"], "Comet": [125000, "125k"], "Nebula": [150000, "150k"], "Space": [180000, "180k"] };
+    const S = { "Basic": { m: 1.2, max: 10 }, "Improved": { m: 1.5, max: 15 }, "Efficient": { m: 1.8, max: 20 }, "Admin": { m: 3.0, max: 50 }, "Godly": { m: 10.0, max: 25 } };
+    const UNITS = [[1e15, "Qa"], [1e12, "T"], [1e9, "B"], [1e6, "M"], [1e3, "K"]];
+
+    const GEN_ITEMS = Object.keys(G).map(k => ({ value: k, label: k, hint: `$${G[k][0].toLocaleString()} (${G[k][1]})/m` }));
+    const TIER_ITEMS = Object.keys(S).map(t => ({ value: t, label: t, hint: `${S[t].m}x, Max ${S[t].max}` }));
+    function initCombos(root) { root.querySelectorAll(".combo").forEach(buildCombo); }
+    // Typeable search dropdown. Stores its choice in a hidden input so calAll() can read .value as before.
+    function buildCombo(el) {
+        const isTier = el.dataset.kind === "tier";
+        const items = isTier ? TIER_ITEMS : GEN_ITEMS;
+        el.innerHTML = `<input type="text" class="combo-in" autocomplete="off" spellcheck="false" placeholder="${isTier ? 'Search tiers...' : 'Search generators...'}"><input type="hidden" class="${el.dataset.cls}"><ul class="combo-list" hidden></ul>`;
+        const txt = el.querySelector(".combo-in"), hid = el.querySelector('input[type="hidden"]'), list = el.querySelector(".combo-list");
+        let shown = items, active = 0;
+        if (isTier) { hid.value = "Basic"; txt.value = "Basic"; }
+        const label = () => { const c = items.find(i => i.value === hid.value); return c ? c.label : ""; };
+        function paint() {
+            list.innerHTML = shown.map((i, n) => `<li data-i="${n}" class="${n === active ? 'active' : ''}${i.value === hid.value ? ' picked' : ''}"><span>${i.label}</span><small>${i.hint}</small></li>`).join("") || '<li class="none">No matches</li>';
+            list.hidden = false;
+            const a = list.querySelector(".active"); if (a) a.scrollIntoView({ block: "nearest" });
+        }
+        function filter(q) {
+            q = q.trim().toLowerCase();
+            shown = items.filter(i => !q || i.label.toLowerCase().includes(q));
+            active = q ? 0 : Math.max(0, shown.findIndex(i => i.value === hid.value));
+            paint();
+        }
+        function pick(i) { const changed = hid.value !== i.value; hid.value = i.value; txt.value = i.label; list.hidden = true; if (changed) calAll(); }
+        function settle() {
+            const q = txt.value.trim().toLowerCase();
+            const exact = items.find(i => i.label.toLowerCase() === q);
+            if (exact) pick(exact);
+            else if (!q && !isTier) { if (hid.value) { hid.value = ""; calAll(); } txt.value = ""; }
+            else txt.value = label();
+            list.hidden = true;
+        }
+        txt.addEventListener("focus", () => { txt.select(); filter(""); });
+        txt.addEventListener("click", () => { if (list.hidden) { txt.select(); filter(""); } });
+        txt.addEventListener("input", () => filter(txt.value));
+        txt.addEventListener("keydown", e => {
+            if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+                e.preventDefault(); if (list.hidden) { filter(""); return; }
+                if (shown.length) { active = (active + (e.key === "ArrowDown" ? 1 : -1) + shown.length) % shown.length; paint(); }
+            } else if (e.key === "Enter") {
+                if (!list.hidden && shown[active]) { e.preventDefault(); pick(shown[active]); }
+            } else if (e.key === "Escape") { txt.value = label(); list.hidden = true; }
+        });
+        txt.addEventListener("blur", settle);
+        list.addEventListener("mousedown", e => { e.preventDefault(); const li = e.target.closest("li[data-i]"); if (li) pick(shown[+li.dataset.i]); });
+    }
+    window.onload = function() { addGenRow(); addStackerRow(); };
+    function addGenRow() {
+        const tr = document.createElement("tr"); const id = 'g_' + Date.now(); tr.id = id;
+        tr.innerHTML = `<td><div class="combo" data-kind="gen" data-cls="g-sel"></div></td>
+            <td><input type="number" class="g-cnt" value="1" min="0" oninput="calAll()"></td>
+            <td>$<span class="v-dsp g-tot">0.00</span></td>
+            <td><button class="btn-danger" onclick="remRow('${id}')">❌</button></td>`;
+        document.getElementById("genTableBody").appendChild(tr); initCombos(tr); calAll();
+    }
+    function addStackerRow() {
+        const tr = document.createElement("tr"); const id = 's_' + Date.now(); tr.id = id;
+        tr.innerHTML = `<td><div class="combo" data-kind="tier" data-cls="s-t"></div></td>
+            <td><div class="combo" data-kind="gen" data-cls="s-g"></div></td>
+            <td><input type="number" class="s-iq" value="1" min="0" oninput="calAll()"><span class="warning-text" style="display: none;"></span></td>
+            <td><input type="number" class="s-cnt" value="1" min="1" oninput="calAll()"></td>
+            <td>$<span class="v-dsp s-tot">0.00</span></td>
+            <td><button class="btn-danger" onclick="remRow('${id}')">❌</button></td>`;
+        document.getElementById("stackerTableBody").appendChild(tr); initCombos(tr); calAll();
+    }
+    function remRow(id) { const el = document.getElementById(id); if (el) { el.remove(); calAll(); } }
+    function fmt(v) { return v.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
+    // Shortens big numbers: 10,100,000 -> "10.1M" (K, M, B, T, Qa)
+    function short(v) {
+        for (const [size, label] of UNITS) {
+            if (v >= size) return (Math.round(v / size * 100) / 100).toString() + label;
+        }
+        return "";
+    }
+    function calAll() {
+        const m = parseFloat(document.getElementById("globalMultiplier").value) || 0; let total = 0;
+        document.querySelectorAll("#genTableBody tr").forEach(r => {
+            const name = r.querySelector(".g-sel").value; const base = name ? G[name][0] : 0;
+            const cnt = parseInt(r.querySelector(".g-cnt").value) || 0; const rTot = base * cnt * m; total += rTot;
+            r.querySelector(".g-tot").innerText = fmt(rTot);
+        });
+        document.querySelectorAll("#stackerTableBody tr").forEach(r => {
+            const tier = r.querySelector(".s-t").value; const name = r.querySelector(".s-g").value; const base = name ? G[name][0] : 0;
+            const tMult = S[tier].m; const maxA = S[tier].max; const iqIn = r.querySelector(".s-iq"); const warn = r.querySelector(".warning-text");
+            let iq = parseInt(iqIn.value) || 0; let sCnt = parseInt(r.querySelector(".s-cnt").value) || 0;
+            if (iq > maxA) { iqIn.classList.add("input-error"); warn.innerText = `⚠️ Max is ${maxA}`; warn.style.display = "block"; }
+            else { iqIn.classList.remove("input-error"); warn.style.display = "none"; }
+            const rTot = base * iq * tMult * sCnt * m; total += rTot; r.querySelector(".s-tot").innerText = fmt(rTot);
+        });
+        document.getElementById("grandTotal").innerText = fmt(total);
+        const s = short(total);
+        document.getElementById("grandShort").innerText = s ? ` (${s})` : "";
+    }
+</script>
+</body>
+</html>
